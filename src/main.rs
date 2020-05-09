@@ -1,13 +1,5 @@
 use std::env;
-
-fn is_morse(query: &str) -> bool {
-    query
-        .replace(" ", "")
-        .replace("\t", "")
-        .replace("-", "")
-        .replace(".", "")
-        .is_empty()
-}
+mod morse;
 
 fn main() {
     let mut args_iter = env::args();
@@ -18,20 +10,9 @@ fn main() {
         .join(" ")
         .replace("_", "-");
 
-    if is_morse(&query) {
-        println!("valid morse");
+    if morse::is_morse(&query) {
+        println!("{}", morse::translate_morse(&query));
     } else {
-        println!("not morse");
-    }
-}
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn test_is_morse() {
-        assert!(is_morse("--.  .--\t\t..."));
-        assert!(!is_morse("abc"));
+        println!("{}", morse::translate_latin(&query));
     }
 }
