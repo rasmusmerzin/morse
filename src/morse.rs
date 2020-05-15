@@ -9,7 +9,7 @@ pub fn translate_morse(query: &str) -> String {
     let morse = Regex::new("  +").unwrap().replace_all(query, "  ");
     let mut latin = String::new();
 
-    for line in morse.split("\n") {
+    for line in morse.lines() {
         if !latin.is_empty() {
             latin.push_str("\n");
         }
@@ -74,7 +74,7 @@ pub fn translate_latin(query: &str) -> String {
     let latin = Regex::new("[^ \nA-Z0-9]").unwrap().replace_all(&query, "");
     let mut morse = String::new();
 
-    for line in latin.split("\n") {
+    for line in latin.lines() {
         if !morse.is_empty() {
             morse.push_str("\n");
         }
@@ -146,11 +146,11 @@ mod tests {
 
     #[test]
     fn test_translate_morse() {
-        assert_eq!("THE QUICK BROWN FOX JUMPED OVER THE LAZY DOGS BACK 1234567890", translate_morse("- .... .   --.- ..- .. -.-. -.-   -... .-. --- .-- -.   ..-. --- -..-   .--- ..- -- .--. . -..   --- ...- . .-.   - .... .   .-.. .- --.. -.--   -.. --- --. ...   -... .- -.-. -.-   .---- ..--- ...-- ....- ..... -.... --... ---.. ----. -----"));
+        assert_eq!("THE QUICK BROWN FOX JUMPED OVER THE LAZY DOGS BACK\n1234567890", translate_morse("- .... .   --.- ..- .. -.-. -.-   -... .-. --- .-- -.   ..-. --- -..-   .--- ..- -- .--. . -..   --- ...- . .-.   - .... .   .-.. .- --.. -.--   -.. --- --. ...   -... .- -.-. -.-\n.---- ..--- ...-- ....- ..... -.... --... ---.. ----. -----"));
     }
 
     #[test]
     fn test_translate_latin() {
-        assert_eq!("- .... .   --.- ..- .. -.-. -.-   -... .-. --- .-- -.   ..-. --- -..-   .--- ..- -- .--. . -..   --- ...- . .-.   - .... .   .-.. .- --.. -.--   -.. --- --. ...   -... .- -.-. -.-   .---- ..--- ...-- ....- ..... -.... --... ---.. ----. -----", translate_latin("THE QUICK BROWN FOX JUMPED OVER THE LAZY DOGS BACK 1234567890"));
+        assert_eq!("- .... .   --.- ..- .. -.-. -.-   -... .-. --- .-- -.   ..-. --- -..-   .--- ..- -- .--. . -..   --- ...- . .-.   - .... .   .-.. .- --.. -.--   -.. --- --. ...   -... .- -.-. -.-\n.---- ..--- ...-- ....- ..... -.... --... ---.. ----. -----", translate_latin("THE QUICK BROWN FOX JUMPED OVER THE LAZY DOGS BACK\n1234567890"));
     }
 }
